@@ -49,6 +49,7 @@ Use Cases
 
 Kafka Terminologies
 -Topics: stream of messages belonging to a particular category. Data is stored in topics. Topics are split into partitions.
+-parition: linearly ordered sequence of messages identified by offset
 -Partition offset: each partitioned message has a unique sequence id called "partition offset"
 -Borkers: systems responsible for maintaining published data
 -Kafka Cluster: Kafka's having more than one broker
@@ -58,6 +59,18 @@ Kafka Terminologies
 -Follower: node which follows leader instructions
 
 
+
+
+
+WorkFlow of Pub-Sub messaging
+1. Producers send message to a topic
+2. Kafka brokers store all message in partition
+3. Consumers subsribe to topics. Kafka will provide current offset of topic to cosumer also saving it in Zookeeper ensemble
+4. Consumers requests kafka in regular intervals for new messages
+5. Once Kafka recieves mesage from producer it forwards it to consumer
+6. Consumer will recieve message and process it
+7. After processing consumer sends acknowledgement to Kafka broker
+8. After recieveing acknowledgement, broker changes offset to new value and updates it in ZooKeeper - helps recovery from crash
 
 
 
