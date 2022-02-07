@@ -2,16 +2,16 @@
 -fast, scalable, distributed by design
 
 In Big Data we have 2 major concerns
--how to collect lage volumes of data
--how to analyze the colelcted data
+-how to collect large volumes of data
+-how to analyze the collected data
 
-to overcome these challenfes, you need a messaging system which is Kafka
+to overcome these challenges, you need a messaging system which is Kafka
 
 
 What is messaging System?
--a system that trransfers data from one application to another so the applications can focus on data but not worry about how to share it
--asynchronous message exchange between client applicatoins and messaging system
--2 types of messaing patterns availavle 
+-a system that transfers data from one application to another so the applications can focus on data but not worry about how to share it
+-asynchronous message exchange between client applications and messaging system
+-2 types of messaging patterns available 
 	-point-to-point
 	-publish-subscribe(pub-sub)
 most follow pub-sub pattern

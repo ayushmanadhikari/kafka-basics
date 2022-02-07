@@ -1,0 +1,75 @@
+Kafka 101 O'Riely
+
+Messages and Batches
+-unit of data within Kafka is called message
+-message can have optional peice of metadata referreed as key
+-for efficiency messages are written into Kafka in batches
+-batch is a collection of messsages having same topic and partition
+-larger the bacth, the more messages can be handled per unit of time but the longer it takes an individual message to propagate
+
+
+Schemas
+-additional structure or schema is imposed on the message content so that it can be easily understood
+-example: XML, JSON: easy to handle and human-understandle but lack robust type handling and compatibility between schema versions
+-many favour Apache Avro which provides compact serialization format and strong typing and schema evolution.. with both backward and forward compatibility
+-consistent data format is important in Kafka
+
+
+Topic and Partitions
+-messages are catgorized into topics
+-topics further broken down into paritions
+-a topic has multiple paritions 
+-message-ordering is not guranteed in 
+cross- paritions but only within a single parition
+-each parition can be hosted on a different server
+-single topic can be scaled horizontally 
+-paritions can also be replicated
+-most often, a stream is considered to be a single topic of data, regardless the number of paritions 
+
+
+Producers
+-create new messages
+-message produced to a specific topic
+-by default, producer doesn not care what parition a specififc message is written to
+-but you can change that
+
+
+Consumers
+-read messages in a certain topic
+-read messages in to order they were produced 
+-consumer keeps track of which messages it has already consumed by keeping track of the offeset of messages
+-offset, is an integer value that continually increases, is another piece of metadata that kafka adds to each message as it is produced
+-each message is given a parition and has unique offset
+-this offset is required when recovering from failure
+
+-consumers work as part of a consumer group.. for a paritcular topic
+-the group assures that each parition is only consumed by one member
+-one consumer can also handle more than one paritions but one parition is handled by only one consumer
+-if one consumer fails, the remaining members of group will rebalance 
+
+
+
+Brokers and Clusters
+-a single kafka server is called a broker
+-broker recieves messages from producers, assigns offsets to them and commits the message to storage on disk
+-it also serves consumers responsding to gfetch request with the messages that have been committed to disk
+-kafka brokers are designed to work as part of the cluster
+-one broker will act as master
+-one partition is owned by a single broker in the cluster called leader/master of the parition
+-a parition can be assigned to multiple brokers resulting in replications
+-individual topics can be configured with their own retention settings(either retention for x days or retention until y GB)
+
+-kafka project includes a tool called MirrorMaker used for replicating data to other clusters
+
+
+
+
+
+
+
+
+
+
+
+
+
