@@ -64,6 +64,45 @@ Brokers and Clusters
 
 
 
+ZooKeeper
+-zookeeper is designed to work as a cluster called an ensemble
+-due to balancing algorithm, it is recommended that ensembles caontain an odd number of server.. ideally from 3 to 7
+
+If the hostnames of the servers in the ensemble
+are zoo1.example.com, zoo2.example.com, and zoo3.example.com, the configura‐
+tion file might look like this:
+
+tickTime=2000
+dataDir=/var/lib/zookeeper
+clientPort=2181
+initLimit=20
+syncLimit=5
+server.1=zoo1.example.com:2888:3888
+server.2=zoo2.example.com:2888:3888
+server.3=zoo3.example.com:2888:3888
+
+In this configuration, the initLimit is the amount of time to allow followers to con‐
+nect with a leader. The syncLimit value limits how out-of-sync followers can be with
+the leader. Both values are a number of tickTime units, which makes the initLimit
+20 * 2000 ms, or 40 seconds. The configuration also lists each server in the ensemble.
+The servers are specified in the format server.X=hostname:peerPort:leaderPort.
+
+
+
+
+Broker Configuration
+-broker.id 
+.every kafka broker must have an integer indentifier
+.initially set to 0
+
+
+
+
+
+
+
+
+
 
 
 
