@@ -113,8 +113,8 @@ Broker Configuration
 Topic Defaults
 -num.paritions
 .determines number of paritions for a topic
-.when automaric topic creation is enabled, this parameter is set to one
-.number of paritions for a topic can only be increases not decreased
+.when automatic topic creation is enabled, this parameter is set to one
+.number of paritions for a topic can only be increased not decreased
 .you generally want many paritions but not too many
 .you can get the number of paritions required by dividing the target throughput by the expected consumer throughput
 .if you want 1 GB/s from a topic, and each consumer can only process 50Mb/s then you need to have 20 paritions so that 20 consumer can achieve throughput of 1 GB/s (20 consumer * 50 MB/s per consumer)
@@ -134,8 +134,23 @@ Topic Defaults
 -log.segment.bytes
 .as messages are produced to Kafka broker, they are appended to the current log segment for the partition
 .Once the log segment has reached the size
-specified by the log.segment.bytes parameter, the log seg‐ment is closed and a new one is opened
+specified by the log.segment.bytes parameter, the log segment is closed and a new one is opened
 
+-log.segment.ms
+.same as log.segment.bytes but for time priod
+
+-min.insync.replicas
+.number specified by it (eg. 2) means at least 2 replicas must acknowledge write to call it successfull
+
+
+
+
+
+Kafka Clusters
+-Broker Configuration
+.2 requirements for multiple brokers to join in on a single cluster
+	-same config for zookeeper.connect parameter.. specifies Zookeeper ensemble and path where the cluster stores metadata
+	-all brokers in the cluster must have unique value for the broker.id parameter
 
 
 
