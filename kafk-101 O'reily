@@ -95,6 +95,20 @@ Broker Configuration
 .every kafka broker must have an integer indentifier
 .initially set to 0
 
+-listeners
+.what broker will use to create server sockets
+.advertised-listeners is what clients will use to connect to the brokers
+
+-zookeeper.connect
+.location of zookeeper used for storing the broker metadata is set using zookeeper.connect configuration 
+.localhost:2181
+
+-log.dirs
+.kafka persists all messages to disk and these log segments are stored in the directory specified in the log.dir
+.for multiple directories, the config log.dirs is preferred
+
+-
+
 
 
 
