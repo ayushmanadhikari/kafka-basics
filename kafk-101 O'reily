@@ -107,8 +107,34 @@ Broker Configuration
 .kafka persists all messages to disk and these log segments are stored in the directory specified in the log.dir
 .for multiple directories, the config log.dirs is preferred
 
--
 
+
+
+Topic Defaults
+-num.paritions
+.determines number of paritions for a topic
+.when automaric topic creation is enabled, this parameter is set to one
+.number of paritions for a topic can only be increases not decreased
+.you generally want many paritions but not too many
+.you can get the number of paritions required by dividing the target throughput by the expected consumer throughput
+.if you want 1 GB/s from a topic, and each consumer can only process 50Mb/s then you need to have 20 paritions so that 20 consumer can achieve throughput of 1 GB/s (20 consumer * 50 MB/s per consumer)
+
+-default.replication.factor
+.when automatic topic creation is enabled, this configuration sets the replication factor
+.highly recommended to set the replication factor to at least 1 above min.insync.replicas
+.replication factor depends on the desired durability and availability of a cluster
+
+-log.rentention.ms
+.how long will Kafka retain messages
+
+-log.rentention.bytes
+.how much data will Kafka hold before deleting them
+.set for individual partition not topic
+
+-log.segment.bytes
+.as messages are produced to Kafka broker, they are appended to the current log segment for the partition
+.Once the log segment has reached the size
+specified by the log.segment.bytes parameter, the log seg‐ment is closed and a new one is opened
 
 
 
