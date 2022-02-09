@@ -127,6 +127,7 @@ CONSUMER
 
 
 Commits and offsets
+.important while designing reliable consumers
 .you can greatly customize the commits and offsets methods and techniques to acquire the best configuration suited for your use case
 .automatic commit 
 	.easiest way to commit offsets
@@ -138,6 +139,26 @@ Asynchronous commit
 .drawback of manual commit is that the applcation is blocked until the broker responds to the commit request
 .another option is the asynchronous commit API
 .here, we just send the request and continue on
+
+
+Deserializers
+.kafka consumers require deserializers to convert byte arryas recieved into Java objects
+
+
+StandAlone Consumer: without a Group
+.consumer can be subscribed to particular partitions instead of the whole topic
+.other then lack of rebalances and the need to manually find the partitions everything else is similar to consumer in a group
+.
+
+
+
+
+
+
+
+
+
+
 
 
 
