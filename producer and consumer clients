@@ -1,1 +1,82 @@
-Producer API
+Producer
+
+Constructing a Kafka Producer
+-bootstrap.servers
+.list of host:port of brokers that producer will use to establish connection to the Kafka cluster
+
+-key.serializer
+.name of class used to serilaize the keys of records we will produce to Kafka
+
+-value.serializer
+.name of class used to serilaize the values of records we will produce to Kafka
+
+
+
+Methods for sending messages
+-Fire and Forget
+.send message to server and don't really care if it arrives successfully or not
+
+-Synchronous send
+.checks to see if the message has been sucessfully delivered or not
+.send() method return a Future object and we use get() to wait on the future and see if send() was successfull or not
+.waits for acknowledgement signal from the reciever
+
+-Asynchronous send
+.we call send() method with a callback function which gets triggered when it recieves a response from the Kafka broker
+.both parties involved can start and stop the communication as required by them
+
+
+
+Cofiguring Producers
+.server.properties is modified
+.client-id:
+	.a logical identifier for the client and the application it is used in
+	.can be any string to be used by the brokers to identify messages sent from the client
+
+
+.max.block.ms
+.delivery.timeout.ms
+.request.timeout.ms
+.retries and retry.backoff.ms
+
+.linger.ms:
+	.time to wait for additional messages before sending the current batch
+
+.compression.type:
+	.can be set to gzip, lz4 or zstd in which corresponding compression algorithms will be used to comress the data before sending it to the broker
+	.default is none
+
+.batch.size:
+	.controls the amount of memory in bytes that will be used for each batch
+
+.max.in.flight.requests.per.connection
+	.controls how many messages the producer will send to the server without recieving responses
+	.setting high value can increase memory usage while improving throughput
+
+.max.request.size
+	.controls the size of a producer request sent by producer
+	.caps both the size of largest message that can be sent and the number of messages that producer can send in one request
+
+.acks
+	.can have 3 values
+		-acks=0
+			.prdoucer will not wait for reply from the broker
+			.this mean if something went wrong and broker did not recieve message, the producer will not know
+		-acks=1
+			.producer will recieve success response form the broker the moment leader replica recieved the message
+		-acks=all
+			.producer will recieve success response from the broker once all in-sync replicas recieved the message
+
+
+
+
+Apache Avro
+-data needs to be serialized before sending over the network
+-serilization method used for serializing data for sending them over the network
+-has JSON file format for describing the schema before sending
+-that JSON file is sent to the recieving end to be used by deserializer to construct the schema of the data sent
+
+
+
+
+
