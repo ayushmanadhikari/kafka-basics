@@ -12,7 +12,7 @@ Constructing a Kafka Producer
 
 
 
-Methods for sending messages
+Primary Methods for sending messages
 -Fire and Forget
 .send message to server and don't really care if it arrives successfully or not
 
@@ -33,11 +33,22 @@ Cofiguring Producers
 	.a logical identifier for the client and the application it is used in
 	.can be any string to be used by the brokers to identify messages sent from the client
 
+.acks
+	.can have 3 values
+		-acks=0
+			.prdoucer will not wait for reply from the broker
+			.this mean if something went wrong and broker did not recieve message, the producer will not know
+		-acks=1
+			.producer will recieve success response form the broker the moment leader replica recieved the message
+		-acks=all
+			.producer will recieve success response from the broker once all in-sync replicas recieved the message
 
-.max.block.ms
-.delivery.timeout.ms
-.request.timeout.ms
-.retries and retry.backoff.ms
+.Message delivery time
+.producer has mutiple configs params that interact to control one of the behaviours that are f most interest to developers - How long will it take until a call to send() will succeed or fail.
+	.max.block.ms
+	.delivery.timeout.ms
+	.request.timeout.ms
+	.retries and retry.backoff.ms
 
 .linger.ms:
 	.time to wait for additional messages before sending the current batch
@@ -57,27 +68,23 @@ Cofiguring Producers
 	.controls the size of a producer request sent by producer
 	.caps both the size of largest message that can be sent and the number of messages that producer can send in one request
 
-.acks
-	.can have 3 values
-		-acks=0
-			.prdoucer will not wait for reply from the broker
-			.this mean if something went wrong and broker did not recieve message, the producer will not know
-		-acks=1
-			.producer will recieve success response form the broker the moment leader replica recieved the message
-		-acks=all
-			.producer will recieve success response from the broker once all in-sync replicas recieved the message
 
-
+Serializers
+.data needs to be serialized before sending over the network
+.serializing a data means to converting the data in suitable format to be transmitted so that it doesn't loose it's meaning or structure after being recieved by the reciever
 
 
 Apache Avro
--data needs to be serialized before sending over the network
--serilization method used for serializing data for sending them over the network
+-Avro serializer is one of the serilization methods used for serializing data for sending them over the network 
 -has JSON file format for describing the schema before sending
 -that JSON file is sent to the recieving end to be used by deserializer to construct the schema of the data sent
 
 
+.Partitions
 
+.Headers
+
+.Quotas and Throttling
 
 
 
@@ -90,55 +97,111 @@ CONSUMER
  .consumer group contains a number of consumers
  .topic contains a number of paritions
  .let's assume there is consumer group G1 and topic T1
- .if a topic has 4 parition and only 2 consumer, each consumer will get 2 partiion of the topic
+ .if a topic has 4 parition and only 2 consumer, each consumer will get 2 partiion of the topic each
  .if a topic has 4 partition and 5 consumer, 4 consumers will each get a partition from the topic and 1 consumer will sit idly
 
  .now comes another consumer group G2 with 2 consumers subscribed to same topic T1
- .each consumer iof G2 will each recieve 2 partition from the topic irrespective of what is going on in G1
+ .each consumer of G2 will each recieve 2 partition from the topic irrespective of what is going on in G1
 
- .moving parition ownership from one consumer to another is called rebalance
+
+Partition Rebalance
+ .moving partition ownership from one consumer to another is called rebalance
  .rebalance is important because they provide the consumer group with high availability and scalability
+ .2 types of rebalances
+ 	.cooperative rebalance
+ 		.involves reassigning only a small subset of thr partitions from one consumer to another
+ 	.Eager rebalance
+ 		.all consumers stop consuming, give up their ownership of all parittions, rejoin the consumer group and get a brand new partition assignment
 
-.consumer must keep polling Kafka or the will be considered dead and the paritions they are consuming will be handed to another consumer on the group to continue consuming
 
+.consumer must keep polling Kafka or they will be considered dead and the paritions they are consuming will be handed to another consumer on the group to continue consuming
+
+
+.Static Group Membership
+.by default, a consumer on leaving and reentering the group, will be given a new member id and new set of partitions through the rebalance protocol
+.but if you configure a consumer with a unique group.instance.id, a consumer becomes a static member of the group 
+	.it means, when the consumer shuts down, it does not automatically leave the group but remains member until its session times out
+	.on reentering the group, it is recognized with its static identity and is re-assigned the same paritions it previously held
+
+
+Constructing a Kafka Consumer
+.similar to constructing a Kafka producer
+.requires 3 mandatory properties
+	.bootstrap.server
+	.key.deserializer
+	.value.deserializer
+.there is a 4th non-mandatory property
+	.group.id: it specifies the consumer group this instance of consumer will belong to
+.after creating a consumer, it needs to be subscribed to one or more topics
+.at the heart of the consumer API is a simple infinite loop for polling the server for more data
 
 
 -Configuring Consumers
 .fetch.min.bytes: 
-	.minimum amount of data it wants to recieve 
-	.from the broker when fetching records
+	.minimum amount of data it wants to recieve from the broker when fetching records
 
 .fetch.max.wait.ms
-	.how long to wait for data
+	.maximum time to wait for data by consumer
+
+.fetch.max.bytes
+	.maximum bytes Kafka will return whenever the consumer polls a broker
+
+.max.poll.records
+	.sets maximum number of records that a single call to poll() will return
+
+.session.timeout.ms 
+	.amount of time a consumer can be out of contact with the brokers while still considered alive
+
+.max.partition.fetch.bytes
+	.maximum number of bytes the server will return per partition
 
 .max.poll.interval.ms
-	.length of time during which the consumer can go without polling befire it is considered dead
+	.length of time during which the consumer can go without polling before it is considered dead
 
 .request.timeout.ms
-	.maximum time the consumer will wait for a reponse from the broker
+	.maximum amount of time the consumer will wait for a reponse from the broker
 	.if not respond within time limit, connection is closed and restarted
 
 .enable.auto.commit 
 	.controls whether consumer will commit offsets automatically and defaults to true
 
-
 .client.id
 	.used by brokers to identify messages from the client
 
+.group.instance.id
+	.provie a consumer with a static group membership
+
+.parition.assignment.strategy
+	.decides which parition will be assigned to which consumer
+		.range
+		.roundrobin
+		.sticky
+		.cooperative sticky
+
+
 
 Commits and offsets
-.important while designing reliable consumers
+.the action of updating the current position in the parition is called commit 
+.Kafka allows consumers to track their position(offset) in each partition
+.in case of rebalance, either some events ma be lost or they may be duplicated
+.to avoid such scenarios, you can choose either automatic commit, or manually do it with commit current offset
 .you can greatly customize the commits and offsets methods and techniques to acquire the best configuration suited for your use case
+
 .automatic commit 
 	.easiest way to commit offsets
 	.allowing consumer to manage offsets for you
 	.enable.auto.commit=true will cause consumer to commit the largest offset it recieved during 5 seconds interval
 
+.commit current offset
+.offsets will only be committed when the application explicitly chooses to do so
+.commitSync()
+	.this api will commit the latest offset returned by poll()
 
-Asynchronous commit
+.Asynchronous commit
 .drawback of manual commit is that the applcation is blocked until the broker responds to the commit request
 .another option is the asynchronous commit API
 .here, we just send the request and continue on
+
 
 
 Deserializers
