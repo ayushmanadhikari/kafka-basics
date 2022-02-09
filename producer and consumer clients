@@ -192,26 +192,50 @@ Commits and offsets
 	.allowing consumer to manage offsets for you
 	.enable.auto.commit=true will cause consumer to commit the largest offset it recieved during 5 seconds interval
 
-.commit current offset
+
+.Commit current offset
 .offsets will only be committed when the application explicitly chooses to do so
 .commitSync()
 	.this api will commit the latest offset returned by poll()
 
+
 .Asynchronous commit
 .drawback of manual commit is that the applcation is blocked until the broker responds to the commit request
 .another option is the asynchronous commit API
-.here, we just send the request and continue on
+.here, we just send the commit request and continue on
+
+
+.Commit specified offset
+	.committing latest offset only allows you to commit as often as you finish processing batches
+	.consumer API allows call to commitSync() and commitAsync() and pass a map of partitions and offsets that you wish to commit
+
+
+.rebalance listeners
+.doing some work by consumer before giving up ownership of the parition or just after recieving new ownership	
+	.onPartitionAssigned()
+		-called after paritions have been reassigned to the consumer
+	.onPartitionsRevoked()
+		-called when the consumer has to give up partitions that it previously owned
+	.onParitionLost()
+		-only called in exceptional cases where the partitions were assigned to other consumers without first being revoked by the rebalance algorithm
+
+
+
+Consuming records with specific offset
+.we can read all messages from the beginning of the partition: seekToBeginning(Collection<TopicPartition> tp) API
+.also, we can skip all the way to the end of the partition and start consuming only new messages: seekToEnd(Collection<TopicPartition> tp)
 
 
 
 Deserializers
 .kafka consumers require deserializers to convert byte arryas recieved into Java objects
+.we can either create custo deserializers or can use Avro deserializers
 
 
 StandAlone Consumer: without a Group
 .consumer can be subscribed to particular partitions instead of the whole topic
 .other then lack of rebalances and the need to manually find the partitions everything else is similar to consumer in a group
-.
+
 
 
 

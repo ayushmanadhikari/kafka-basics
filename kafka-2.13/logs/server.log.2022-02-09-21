@@ -1,0 +1,4 @@
+[2022-02-09 21:37:48,137] INFO [GroupCoordinator 0]: Member console-consumer-76a0c8e7-33e8-4d16-9eee-7a2a9d282dd2 in group console-consumer-63453 has failed, removing it from the group (kafka.coordinator.group.GroupCoordinator)
+[2022-02-09 21:37:48,144] INFO [GroupCoordinator 0]: Preparing to rebalance group console-consumer-63453 in state PreparingRebalance with old generation 1 (__consumer_offsets-42) (reason: removing member console-consumer-76a0c8e7-33e8-4d16-9eee-7a2a9d282dd2 on heartbeat expiration) (kafka.coordinator.group.GroupCoordinator)
+[2022-02-09 21:37:48,147] INFO [GroupCoordinator 0]: Group console-consumer-63453 with generation 2 is now empty (__consumer_offsets-42) (kafka.coordinator.group.GroupCoordinator)
+[2022-02-09 21:38:25,736] INFO [GroupMetadataManager brokerId=0] Group console-consumer-63453 transitioned to Dead in generation 2 (kafka.coordinator.group.GroupMetadataManager)
