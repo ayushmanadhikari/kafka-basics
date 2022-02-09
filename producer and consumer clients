@@ -80,3 +80,66 @@ Apache Avro
 
 
 
+
+
+
+
+
+CONSUMER
+ consumer and consumer groups
+ .consumer group contains a number of consumers
+ .topic contains a number of paritions
+ .let's assume there is consumer group G1 and topic T1
+ .if a topic has 4 parition and only 2 consumer, each consumer will get 2 partiion of the topic
+ .if a topic has 4 partition and 5 consumer, 4 consumers will each get a partition from the topic and 1 consumer will sit idly
+
+ .now comes another consumer group G2 with 2 consumers subscribed to same topic T1
+ .each consumer iof G2 will each recieve 2 partition from the topic irrespective of what is going on in G1
+
+ .moving parition ownership from one consumer to another is called rebalance
+ .rebalance is important because they provide the consumer group with high availability and scalability
+
+.consumer must keep polling Kafka or the will be considered dead and the paritions they are consuming will be handed to another consumer on the group to continue consuming
+
+
+
+-Configuring Consumers
+.fetch.min.bytes: 
+	.minimum amount of data it wants to recieve 
+	.from the broker when fetching records
+
+.fetch.max.wait.ms
+	.how long to wait for data
+
+.max.poll.interval.ms
+	.length of time during which the consumer can go without polling befire it is considered dead
+
+.request.timeout.ms
+	.maximum time the consumer will wait for a reponse from the broker
+	.if not respond within time limit, connection is closed and restarted
+
+.enable.auto.commit 
+	.controls whether consumer will commit offsets automatically and defaults to true
+
+
+.client.id
+	.used by brokers to identify messages from the client
+
+
+Commits and offsets
+.you can greatly customize the commits and offsets methods and techniques to acquire the best configuration suited for your use case
+.automatic commit 
+	.easiest way to commit offsets
+	.allowing consumer to manage offsets for you
+	.enable.auto.commit=true will cause consumer to commit the largest offset it recieved during 5 seconds interval
+
+
+Asynchronous commit
+.drawback of manual commit is that the applcation is blocked until the broker responds to the commit request
+.another option is the asynchronous commit API
+.here, we just send the request and continue on
+
+
+
+
+
