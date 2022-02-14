@@ -1,15 +1,7 @@
-from pykafka import KafkaClient
+from pykafka import KafkaClient 
 
+#create a kafkaclient to work with
+client = KafkaClient('loaclhost:9092')
 
-client = KafkaClient("localhost: 9092")
+#creating a topic for producers to be produced from and consumer to consume from
 
-
-#calling a topic
-topic = client.topics["new-topic"]
-
-
-#creating a new topic
-test_topic = client.create_topic('test_topic', partitions = 2, replicas=3)
-
-
-print(topic)
