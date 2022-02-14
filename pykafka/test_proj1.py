@@ -1,6 +1,5 @@
 #pulling in data from IMDB site about ratings of different movies and storing them in relational and non-relational format
 
-
 import requests
 import json
 import pprint
@@ -14,9 +13,9 @@ headers = {
 response = requests.request("GET", url, headers=headers, params=querystring)
 
 
-pprint.pprint(response.json()['id'])
-print(type(response))
+pprint.pprint(response.json())
+#print(type(response))
 
 out_file = open('test_proj1_json_data', 'w')
-json.dump(response.json(), out_file)
-#print(response.text)
+json.dump(response.json(), out_file, indent=4)
+print(response.text)
