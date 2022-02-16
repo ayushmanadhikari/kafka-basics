@@ -34,6 +34,7 @@ def generate_checkpoints(coordinates):
         data['key'] = data['busline'] + '_' + str(uuid.uuid4())
         data['timestamp'] = str(datetime.utcnow())
         data['latitude'] = coordinates[i][1]
+        data['longitude'] = coordinates[i][0]
         message = json.dumps(data)
         print(message)
         producer.produce(message.encode('ascii'))

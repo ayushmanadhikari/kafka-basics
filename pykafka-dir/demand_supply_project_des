@@ -2,7 +2,6 @@ Producer
 #producer has 2 parts: captain and user
 #captain produces certain data and sends it to broker every 1 minute
 #user sends its data everytime it needs to do booking. But for this project we will produce user data every 3 minute
-#to distinguish the data we can populate them into different partitions
 #these data are sent to a single topic
 #you can set the event type to distinguish between the message produced by the captain or the user
 

@@ -23,6 +23,13 @@ age = [21,20,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40]
 fake = Faker()
 
 
+#making a list of latitudes and longitudes taken from geojson and stored in demand_supply.json
+with open('demand_supply.json') as f:
+    json_array = json.load(f)
+    coordinates = json_array['coordinates']
+
+
+
 #generates captain data and produces to the demand_supply topic every 1 minute
 def gen_captain_data():
     i = 0
@@ -32,6 +39,8 @@ def gen_captain_data():
         captain_data['email'] = fake.email()
         captain_data['age'] = random.choice(age)
         captain_data['event-type'] = 'captain'
+        captain_data['coordinate'] = random.choice(coordinates)
+        captain_data['timestamp'] = str(datetime.utcnow())
         mssg = json.dumps(captain_data)
         producer.produce(mssg.encode('ascii'))
         i += 1
@@ -49,6 +58,8 @@ def gen_user_data():
         user_data['email'] = fake.email()
         user_data['age'] = random.choice(age)
         user_data['event-type'] = 'user'
+        user_data['coordinate'] = random.choice(coordinates)
+        user_data['timestamp'] = str(datetime.utcnow())
         msg = json.dumps(user_data)
         producer.produce(msg.encode('ascii'))
         j += 1
@@ -57,6 +68,5 @@ def gen_user_data():
 
 
 if __name__ == '__main__':
-    gen_captain_data()
-    gen_user_data()
-    
+    #print(coordinates)
+    random_coordinate = random.choice(coordinates)
