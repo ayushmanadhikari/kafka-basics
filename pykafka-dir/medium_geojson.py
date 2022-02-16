@@ -35,15 +35,15 @@ def generate_checkpoints(coordinates):
         data['timestamp'] = str(datetime.utcnow())
         data['latitude'] = coordinates[i][1]
         message = json.dumps(data)
-        #print(message)
-        #producer.produce(message.encode('ascii'))
+        print(message)
+        producer.produce(message.encode('ascii'))
         time.sleep(1)
 
         #if bus reaches last coordinate, start from beginning
-#        if i == len(coordinates) - 1:
-#            i = 0
-#        else:
-#            i += 1
+        if i == len(coordinates) - 1:
+            i = 0
+        else:
+            i += 1
 
 
 #calling the function with our custom coordinates

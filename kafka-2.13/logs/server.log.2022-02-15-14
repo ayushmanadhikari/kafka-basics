@@ -1,0 +1,7 @@
+[2022-02-15 14:08:46,691] INFO Creating topic demand_supply with configuration {} and initial partition assignment HashMap(0 -> ArrayBuffer(0)) (kafka.zk.AdminZkClient)
+[2022-02-15 14:08:46,700] INFO [Controller id=0, targetBrokerId=0] Node 0 disconnected. (org.apache.kafka.clients.NetworkClient)
+[2022-02-15 14:08:46,702] INFO [ReplicaFetcherManager on broker 0] Removed fetcher for partitions Set(demand_supply-0) (kafka.server.ReplicaFetcherManager)
+[2022-02-15 14:08:46,704] INFO [LogLoader partition=demand_supply-0, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Loading producer state till offset 0 with message format version 2 (kafka.log.UnifiedLog$)
+[2022-02-15 14:08:46,704] INFO Created log for partition demand_supply-0 in /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/demand_supply-0 with properties {} (kafka.log.LogManager)
+[2022-02-15 14:08:46,704] INFO [Partition demand_supply-0 broker=0] No checkpointed highwatermark is found for partition demand_supply-0 (kafka.cluster.Partition)
+[2022-02-15 14:08:46,704] INFO [Partition demand_supply-0 broker=0] Log loaded for partition demand_supply-0 with initial high watermark 0 (kafka.cluster.Partition)
