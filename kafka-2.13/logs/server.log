@@ -1,3 +1,4 @@
-[2022-02-17 16:59:29,959] INFO [GroupMetadataManager brokerId=0] Group new-topic transitioned to Dead in generation 0 (kafka.coordinator.group.GroupMetadataManager)
-[2022-02-17 16:59:29,970] INFO [LocalLog partition=__consumer_offsets-8, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Rolled new log segment at offset 1 in 3 ms. (kafka.log.LocalLog)
-[2022-02-17 16:59:29,972] INFO [GroupMetadataManager brokerId=0] Removed 1 expired offsets in 16 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
+[2022-02-17 17:58:44,603] INFO [UnifiedLog partition=__consumer_offsets-8, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Deleting segment files LogSegment(baseOffset=0, size=184, lastModifiedTime=1644489904425, largestRecordTimestamp=Some(1644489904414)) (kafka.log.LocalLog$)
+[2022-02-17 17:58:44,616] INFO Deleted log /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/__consumer_offsets-8/00000000000000000000.log.deleted. (kafka.log.LogSegment)
+[2022-02-17 17:58:44,641] INFO Deleted offset index /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/__consumer_offsets-8/00000000000000000000.index.deleted. (kafka.log.LogSegment)
+[2022-02-17 17:58:44,642] INFO Deleted time index /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/__consumer_offsets-8/00000000000000000000.timeindex.deleted. (kafka.log.LogSegment)
