@@ -1,0 +1,7 @@
+[2022-02-23 12:26:37,931] INFO [LocalLog partition=test-demand-0, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Rolled new log segment at offset 27 in 3 ms. (kafka.log.LocalLog)
+[2022-02-23 12:26:37,936] INFO [UnifiedLog partition=test-demand-0, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Deleting segment LogSegment(baseOffset=0, size=4641, lastModifiedTime=1644991202795, largestRecordTimestamp=None) due to retention time 604800000ms breach based on the last modified time of the segment (kafka.log.UnifiedLog)
+[2022-02-23 12:26:37,940] INFO [UnifiedLog partition=test-demand-0, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Incremented log start offset to 27 due to segment deletion (kafka.log.UnifiedLog)
+[2022-02-23 12:27:37,936] INFO [LocalLog partition=test-demand-0, dir=/Users/ayusman/migrate/kafka/kafka-2.13/data/kafka] Deleting segment files LogSegment(baseOffset=0, size=4641, lastModifiedTime=1644991202795, largestRecordTimestamp=None) (kafka.log.LocalLog$)
+[2022-02-23 12:27:37,938] INFO Deleted log /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/test-demand-0/00000000000000000000.log.deleted. (kafka.log.LogSegment)
+[2022-02-23 12:27:37,938] INFO Deleted offset index /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/test-demand-0/00000000000000000000.index.deleted. (kafka.log.LogSegment)
+[2022-02-23 12:27:37,939] INFO Deleted time index /Users/ayusman/migrate/kafka/kafka-2.13/data/kafka/test-demand-0/00000000000000000000.timeindex.deleted. (kafka.log.LogSegment)

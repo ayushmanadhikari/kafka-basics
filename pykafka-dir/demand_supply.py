@@ -11,7 +11,7 @@ from faker import Faker
 kafka_client = KafkaClient('localhost:9092')
 kafka_topic = kafka_client.topics['test-demand']
 producer = kafka_topic.get_producer()
-consumer = kafka_topic.get_simple_consumer()
+consumer = kafka_topic.get_simple_consumer(auto_offset_reset=True)
 
 
 
@@ -67,6 +67,11 @@ def gen_user_data():
 
 
 
+
+
 if __name__ == '__main__':
-    #print(coordinates)
-    random_coordinate = random.choice(coordinates)
+    #gen_captain_data()
+
+    for message in consumer.consume():
+        print(f"{message.offset}: {message.value}")
+
