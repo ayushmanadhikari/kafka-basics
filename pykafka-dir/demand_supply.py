@@ -72,6 +72,6 @@ def gen_user_data():
 if __name__ == '__main__':
     #gen_captain_data()
 
-    for message in consumer.consume():
+    for message in consumer:
         print(f"{message.offset}: {message.value}")
 
