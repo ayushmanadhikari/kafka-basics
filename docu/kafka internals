@@ -1,0 +1,100 @@
+Internal Working of Kafka
+
+Kafka Controllers
+.kafka broker that is responsible for electing parition leaders
+.first broker that starts the cluster becomes the controller by creating a ephemeral node in zookeeper called controller
+.when controller broker's connection is lost, the ephemeral node will disappear
+.when other brokers are notfied through Zookeeper, they will attempt to create the controller node in Zookeeper themselves
+.when controller notices that a broker left the cluster, it knows that all the partitions that had leader on that broker will now need a new leader
+.it goes to all the partitions who lost their leader and create a new leader
+
+
+From ZooKeeper to KRaft - Kafka's new Raft based controller
+.kafka is now making its move towards new controller from the ZooKeeper based controller for several reasons
+.Zookeeper has 2 main functions while running Kafka 
+	-storing cluster metadata like topic, paritions, offset, etc
+	-electing a new controller
+.these 2 functionalities will be handled by Raft algorithm
+.Raft algorithm elects a new leader
+.Raft is a log of metadata events which contains info about each change to the cluster metadata
+
+
+
+
+Replication
+.replication ensures high availability and durability
+.data is kafka is organized into topics which is in turn paritioned and each partition can have multiple replicas
+.these replicas are stored on brokers
+.and each broker typically stores hundreds or even thousands of replicas belonging to different topics and partitions
+
+Leader Replica
+.each parition has a single replica designated as the leader
+.it knows which of the follower replicas is up-to-date with the leader
+.all produce requests go through the leader to guarantee consistency
+.clients can consume from either the leader replica or its followers
+
+Follower Replica
+.all replicas for a partition that are not leaders
+.they don't serve client requests
+.their only job is to replicate messages from the leader and stay up-to-date with most recent messages the leader has
+.but they may fail to do so due to various reasons
+.when leader crashes, one of the follower becomes the next leader
+.inroder to stay uptodate each replica sends a Fetch Request, the kind of message consumer sends to consume messages
+.Fetch request contains the offset of the messade that the replica wants to recieve next
+.Leader knows how far behind each replica is by looking at the last offset requested by each replica
+.a replica that is not uptodate cannot become the leader incase of leader crash
+
+
+
+Request Processing
+.most of what Kafka broker does is process requests 
+.Kafka has binary protocol(over TCP) that specififes the format of the requests and how brokers respond
+.client always initiate connections and send requests
+.for each port broker listens on, there are 2 threads acceptor(creates connection) and processor threads(network threads)
+.major types of requests
+	-produce requests
+	-fetch requests
+	-admin requests
+.Connection<---->Networkthread(1)-->Reuest Queue(2)
+						|				|
+				Response Queue(4)<--IO Thread(3)
+
+.MetaData request
+	.contains list of topics the client is interested in
+	.specifies which paritions exist in the topics, the replicas for each partition, and which replica is the leader
+
+
+
+
+Produce Requests
+.configuration parameter acks defines the number of brokers who need to acknowledge recieving the message before considering it successfull
+.after recieving produce request by the lead replica, it will validate for
+	.user sending data has write privileges?
+	.acks is set to 0,1 or all?
+.after that the broker will write new messages to local disk
+.once message is written to leader of the partition, broker examines acks configuration and acts accordingly
+
+
+Fetch Request
+.very similar to request handling of produce requests
+.the client will ask broker to send messages from a list of topics, partitions and offsets
+.when the leader replica recieves the message, it first makes sure if the request is valid or not
+.if the requested offset for the partition exists, the broker will read messages from the partition up to the limit set by the client in the request and send the message to the client
+.client can also set the lower boundary on the amount of data the broker can return back to the client
+.you can also specify on the time limit that the broker can wait before sending the message to the client evven if the lower limit has not been satisfied
+.messages are not returned back to the client until all the in-sync replicas have the copy of the message
+.if only leader has the message, an empty response is sent instead of error
+.replica.lag.time.max.ms: defines the max amount of time a replica can be delayed in replicating new messages while still being considered in-sync
+.
+
+
+
+
+
+
+
+
+
+
+
+

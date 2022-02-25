@@ -1,0 +1,76 @@
+-publish-subscribe based fault tolerant messaging system
+-fast, scalable, distributed by design
+
+In Big Data we have 2 major concerns
+-how to collect large volumes of data
+-how to analyze the collected data
+
+to overcome these challenges, you need a messaging system which is Kafka
+
+
+What is messaging System?
+-a system that transfers data from one application to another so the applications can focus on data but not worry about how to share it
+-asynchronous message exchange between client applications and messaging system
+-2 types of messaging patterns available 
+	-point-to-point
+	-publish-subscribe(pub-sub)
+most follow pub-sub pattern
+
+
+Publish-Subscribe Messaging System
+-messages are persisted in a topic
+-consumers can subscribe to one or more topic and consume all messages in that topic
+
+
+What is Kafka?
+-unified platform for handling all the real-time data feeds
+-a distributed pub-sub messaging system that can handle high volume of data 
+-suitable for both online and offline message consumption
+-built on top of ZooKeeper synchronization service
+-integrates well with Apache Storm and Spark for real-time streaming data analysis
+
+
+Benefits
+-Reliability
+-Scalability
+-Durability: uses "Distributed commit log" which causes message to persist on disk as fast as possible
+-Performance
+
+
+Use Cases
+-Metrics: used for operational monitoring data
+			-this involves aggreagting statistics from distributed applications to priduce centralized feeds of operational data
+-Log Aggregation Solution: used across organization to collect logs from multiple services and 
+				make them available in a standard format
+-Stream Processing: Streaming frameworks like Spark Streaming read a topic, Process it and write processed data to a new topic
+
+
+
+
+Kafka Terminologies
+-Topics: stream of messages belonging to a particular category. Data is stored in topics. Topics are split into partitions.
+-parition: linearly ordered sequence of messages identified by offset
+-Partition offset: each partitioned message has a unique sequence id called "partition offset"
+-Borkers: systems responsible for maintaining published data
+-Kafka Cluster: Kafka's having more than one broker
+-Producer: publisher of messages to one or more Kafka topics. They send data to Kafka brokers. Broker appends the message to a partition.
+-Consumers: read data from brokers. They subscribe to one or more topics and consume published messages
+-Leader: Node responsible for all read and writes for the given partition. Every partition has one server acting as a leader.
+-Follower: node which follows leader instructions
+
+
+
+
+
+WorkFlow of Pub-Sub messaging
+1. Producers send message to a topic
+2. Kafka brokers store all message in partition
+3. Consumers subsribe to topics. Kafka will provide current offset of topic to cosumer also saving it in Zookeeper ensemble
+4. Consumers requests kafka in regular intervals for new messages
+5. Once Kafka recieves mesage from producer it forwards it to consumer
+6. Consumer will recieve message and process it
+7. After processing consumer sends acknowledgement to Kafka broker
+8. After recieveing acknowledgement, broker changes offset to new value and updates it in ZooKeeper - helps recovery from crash
+
+
+

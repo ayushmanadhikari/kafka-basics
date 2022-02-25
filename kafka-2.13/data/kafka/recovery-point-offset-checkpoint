@@ -5,7 +5,7 @@ connect-test 0 0
 __consumer_offsets 46 3
 __consumer_offsets 9 0
 __consumer_offsets 42 6
-__consumer_offsets 21 3
+__consumer_offsets 21 6
 demand_supply 0 0
 __consumer_offsets 17 0
 __consumer_offsets 30 0
@@ -13,12 +13,12 @@ __consumer_offsets 26 0
 __consumer_offsets 5 0
 __consumer_offsets 38 3
 __consumer_offsets 1 0
-__consumer_offsets 34 0
+__consumer_offsets 34 3
 __consumer_offsets 16 3
 __consumer_offsets 45 0
 __consumer_offsets 12 0
 __consumer_offsets 41 3
-new-topic 0 0
+new-topic 0 3
 __consumer_offsets 24 0
 __consumer_offsets 20 0
 __consumer_offsets 49 0
@@ -37,7 +37,7 @@ __consumer_offsets 44 0
 __consumer_offsets 23 0
 test-demand-supply 0 0
 __consumer_offsets 19 0
-__consumer_offsets 32 0
+__consumer_offsets 32 3
 __consumer_offsets 28 0
 __consumer_offsets 7 3
 __consumer_offsets 40 0
@@ -47,7 +47,7 @@ __consumer_offsets 47 0
 __consumer_offsets 14 0
 __consumer_offsets 43 0
 test 0 0
-test-demand 0 27
+test-demand 0 43
 __consumer_offsets 10 0
 __consumer_offsets 22 0
 __consumer_offsets 18 0
