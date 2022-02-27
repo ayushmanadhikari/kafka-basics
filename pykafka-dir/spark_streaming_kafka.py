@@ -1,3 +1,4 @@
+import pyspark
 from pyspark.sql import SparkSession
 from pyspark import SparkContext, SparkConf
 
@@ -10,6 +11,10 @@ df = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "localho
 df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
 
 
-query = df.writeStream.outputMode("append").format("console").start()
+query = df.writeStream.outputMode("update").queryName("kaf_op").format("console").start()
 query.awaitTermination()
 
+
+#
+
+    

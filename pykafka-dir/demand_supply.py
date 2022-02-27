@@ -11,7 +11,7 @@ from faker import Faker
 kafka_client = KafkaClient('localhost:9092')
 kafka_topic = kafka_client.topics['test-demand']
 producer = kafka_topic.get_producer()
-consumer = kafka_topic.get_simple_consumer(auto_offset_reset=True)
+consumer = kafka_topic.get_simple_consumer()
 
 
 
@@ -43,7 +43,7 @@ def gen_captain_data():
         captain_data['timestamp'] = str(datetime.utcnow())
         mssg = json.dumps(captain_data)
         producer.produce(mssg.encode('ascii'))
-        i += 1
+        i += 0
         time.sleep(4)
 
 
@@ -62,7 +62,7 @@ def gen_user_data():
         user_data['timestamp'] = str(datetime.utcnow())
         msg = json.dumps(user_data)
         producer.produce(msg.encode('ascii'))
-        j += 1
+        j += 0
         time.sleep(10)
 
 
@@ -70,8 +70,8 @@ def gen_user_data():
 
 
 if __name__ == '__main__':
-    #gen_captain_data()
-
-    for message in consumer:
-        print(f"{message.offset}: {message.value}")
+    gen_captain_data()
+    gen_user_data()
+#    for message in consumer:
+#        print(f"{message.offset}: {message.value}")
 

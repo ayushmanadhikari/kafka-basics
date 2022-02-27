@@ -1,0 +1,1 @@
+[2022-02-26 04:44:24,086] INFO [GroupMetadataManager brokerId=0] Group spark-kafka-source-17a5502b-8ddb-4aeb-babc-60dc4527a1e7-1575489019-driver-0 transitioned to Dead in generation 4 (kafka.coordinator.group.GroupMetadataManager)
