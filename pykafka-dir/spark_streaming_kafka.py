@@ -23,7 +23,7 @@ query_df = query_df.withColumn('event-type', split_col.__getitem__(4))
 query_df = query_df.withColumn('coordinate', split_col.__getitem__(5))
 query_df = query_df.withColumn('timestamp', split_col.__getitem__(6))
 
-final_op_stream_df = query_df.selectExpr("Id", "name", "coordinate", "timestamp")
+final_op_stream_df = query_df.selectExpr("Id", "age", "coordinate", "timestamp")
 write_stream_df_op_query = final_op_stream_df.writeStream.format("console").trigger(processingTime='1 seconds').start()
 time.sleep(10)
 write_stream_df_op_query.stop()
