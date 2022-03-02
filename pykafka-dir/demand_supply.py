@@ -6,10 +6,12 @@ import time
 from faker import Faker
 
 
+CONS_KAFKA_TOPIC = "test-demand2"
+CONS_KAFKA_SERVER = "localhost:9092"
 
 #creating instances of Kafka variables
-kafka_client = KafkaClient('localhost:9092')
-kafka_topic = kafka_client.topics['test-demand']
+kafka_client = KafkaClient(CONS_KAFKA_SERVER)
+kafka_topic = kafka_client.topics[CONS_KAFKA_TOPIC]
 producer = kafka_topic.get_producer()
 consumer = kafka_topic.get_simple_consumer()
 
@@ -43,8 +45,8 @@ def gen_captain_data():
         captain_data['timestamp'] = str(datetime.utcnow())
         mssg = json.dumps(captain_data)
         producer.produce(mssg.encode('ascii'))
-        i += 0
-        time.sleep(4)
+        i += 1
+        #time.sleep(4)
 
 
 
@@ -62,8 +64,8 @@ def gen_user_data():
         user_data['timestamp'] = str(datetime.utcnow())
         msg = json.dumps(user_data)
         producer.produce(msg.encode('ascii'))
-        j += 0
-        time.sleep(10)
+        j += 1
+        #time.sleep(10)
 
 
 
@@ -72,6 +74,6 @@ def gen_user_data():
 if __name__ == '__main__':
     gen_captain_data()
     gen_user_data()
-#    for message in consumer:
-#        print(f"{message.offset}: {message.value}")
+    for message in consumer:
+       print(f"{message.offset}: {message.value}")
 
