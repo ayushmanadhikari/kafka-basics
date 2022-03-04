@@ -15,3 +15,7 @@
 	End size: 0.0 MB (2 messages)
 	86.8% size reduction (71.4% fewer messages)
  (kafka.log.LogCleaner)
+[2022-03-04 16:59:14,079] INFO Shutting down the log cleaner. (kafka.log.LogCleaner)
+[2022-03-04 16:59:14,080] INFO [kafka-log-cleaner-thread-0]: Shutting down (kafka.log.LogCleaner)
+[2022-03-04 16:59:14,083] INFO [kafka-log-cleaner-thread-0]: Stopped (kafka.log.LogCleaner)
+[2022-03-04 16:59:14,083] INFO [kafka-log-cleaner-thread-0]: Shutdown completed (kafka.log.LogCleaner)
