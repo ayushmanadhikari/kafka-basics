@@ -6,16 +6,14 @@ import time
 from pyspark.sql.types import *
 
 
-
-
 #defining constants
 CONS_KAFKA_TOPIC = "test-demand3"
 CONS_KAFKA_SERVER = "localhost:9092"
 
 
 #starting a spark session to work with
-spark = SparkSession.builder.appName("Spark-kafka").getOrCreate()
-spark.sparkContext.setLogLevel("INFO")
+spark = SparkSession.builder.appName("Spark_kafka").getOrCreate()
+spark.sparkContext.setLogLevel("ERROR")
 
 
 
@@ -56,10 +54,10 @@ df_temp = df_temp.withColumn('timestamp', time_split.__getitem__(1) )
 
 
 #selecting the columns to stream into console using columned-query_df
-final_op_stream_df = df_temp.selectExpr("Id", "lat", "long", "timestamp")
+final_op_stream_df = df_temp.selectExpr("Id", "lat", "long", "event", "timestamp")
 #streaming the data into console 
-final_op_stream_df = final_op_stream_df.writeStream.format("console").trigger(processingTime='1 seconds').start()
-time.sleep(2)
+final_op_stream_df = final_op_stream_df.writeStream.format("console").start()
+time.sleep(10)
 #stopping the streaming data
 final_op_stream_df.stop()
 
@@ -67,17 +65,17 @@ final_op_stream_df.stop()
 
 
 #writing the streaming dataframe into mysql rdbms
-#selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp")
+selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp")
 
-#db_properties = {'user': 'root', 'password': ''}
-#def for_each_batch(df, id):
-#    df.write.option("driver", "com.mysql.jdbc.Driver").mode("append").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
-#    pass
+db_properties = {'user': 'root', 'password': ''}
+def for_each_batch(df, id):
+    df.write.option("driver", "com.mysql.jdbc.Driver").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
+    pass
 
-#query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
+query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
 print("writing to database..............")
 time.sleep(10)
-#query.stop()
+query.stop()
 
 
 
