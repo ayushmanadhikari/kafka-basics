@@ -28,8 +28,7 @@ fake = Faker()
 #making a list of latitudes and longitudes taken from geojson and stored in demand_supply.json
 with open('demand_supply.json') as f:
     json_array = json.load(f)
-    coordinates = json_array['coordinates']
-
+    coordinates = json_array['coordinates']    
 
 
 #generates captain data and produces to the demand_supply topic every 1 minute
@@ -44,7 +43,7 @@ def gen_captain_data():
         captain_data['coordinate'] = random.choice(coordinates)
         captain_data['timestamp'] = str(datetime.utcnow())
         mssg = json.dumps(captain_data)
-        producer.produce(mssg.encode('ascii'))
+        #producer.produce(mssg.encode('ascii'))
         i += 1
         #time.sleep(4)
 
@@ -63,7 +62,7 @@ def gen_user_data():
         user_data['coordinate'] = random.choice(coordinates)
         user_data['timestamp'] = str(datetime.utcnow())
         msg = json.dumps(user_data)
-        producer.produce(msg.encode('ascii'))
+        #producer.produce(msg.encode('ascii'))
         j += 1
         #time.sleep(10)
 

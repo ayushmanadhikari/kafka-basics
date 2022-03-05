@@ -52,6 +52,11 @@ for col in col_array:
 ##cleaning the timestamp field by removing the prepending character "
 time_split = split(df_temp['timestamp'], '"')
 df_temp = df_temp.withColumn('timestamp', time_split.__getitem__(1) )
+##cleaning lat 
+lat_split = split(df_temp['lat'], "[")
+df_temp = df_temp.withColumn('lat', lat_split.__getitem__(1))
+
+
 
 
 #selecting the columns to stream into console using columned-query_df
@@ -71,7 +76,7 @@ selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp"
 
 db_properties = {'user': 'root', 'password': ''}
 def for_each_batch(df, id):
-    df.write.option("driver", "com.mysql.jdbc.Driver").mode("overwrite").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
+    df.write.option("driver", "com.mysql.jdbc.Driver").mode("append").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
     pass
 
 query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
