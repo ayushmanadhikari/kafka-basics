@@ -51,21 +51,19 @@ final_op_stream_df.stop()
 
 
 
-
-
 #writing the streaming dataframe into mysql rdbms
-selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp")
+#selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp")
 
 
-db_properties = {'user': 'root', 'password': ''}
-def for_each_batch(df, id):
-    df.write.option("driver", "com.mysql.jdbc.Driver").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
-    pass
+#db_properties = {'user': 'root', 'password': ''}
+#def for_each_batch(df, id):
+#    df.write.option("driver", "com.mysql.jdbc.Driver").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
+#    pass
 
-query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
-print("writing to database..............")
-time.sleep(10)
-query.stop()
+#query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
+#print("writing to database..............")
+#time.sleep(10)
+#query.stop()
 
 
 
