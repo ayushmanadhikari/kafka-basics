@@ -6,7 +6,7 @@ import time
 from faker import Faker
 
 
-CONS_KAFKA_TOPIC = "test-demand2"
+CONS_KAFKA_TOPIC = "test-demand3"
 CONS_KAFKA_SERVER = "localhost:9092"
 
 #creating instances of Kafka variables
@@ -40,10 +40,12 @@ def gen_captain_data():
         captain_data['email'] = fake.email()
         captain_data['age'] = random.choice(age)
         captain_data['event-type'] = 'captain'
-        captain_data['coordinate'] = random.choice(coordinates)
+        coordinate = random.choice(coordinates)
+        captain_data['lat'] = coordinate[0]
+        captain_data['long'] = coordinate[1]
         captain_data['timestamp'] = str(datetime.utcnow())
         mssg = json.dumps(captain_data)
-        #producer.produce(mssg.encode('ascii'))
+        producer.produce(mssg.encode('ascii'))
         i += 1
         #time.sleep(4)
 
@@ -59,10 +61,12 @@ def gen_user_data():
         user_data['email'] = fake.email()
         user_data['age'] = random.choice(age)
         user_data['event-type'] = 'user'
-        user_data['coordinate'] = random.choice(coordinates)
+        coordinate = random.choice(coordinates)
+        user_data['lat'] = coordinate[0]
+        user_data['long'] = coordinate[1]
         user_data['timestamp'] = str(datetime.utcnow())
         msg = json.dumps(user_data)
-        #producer.produce(msg.encode('ascii'))
+        producer.produce(msg.encode('ascii'))
         j += 1
         #time.sleep(10)
 
