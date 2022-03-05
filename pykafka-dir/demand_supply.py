@@ -34,7 +34,7 @@ with open('demand_supply.json') as f:
 #generates captain data and produces to the demand_supply topic every 1 minute
 def gen_captain_data():
     i = 0
-    while i<5:
+    while i<15:
         captain_data['capId'] = random.choice(id)
         captain_data['name'] = fake.name()
         captain_data['email'] = fake.email()
@@ -55,7 +55,7 @@ def gen_captain_data():
 #generates user data and produces to the demand_supply topic every 2 minutes
 def gen_user_data():
     j = 0
-    while j<5:
+    while j<10:
         user_data['userId'] = random.choice(id)
         user_data['name'] = fake.name()
         user_data['email'] = fake.email()
