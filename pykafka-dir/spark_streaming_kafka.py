@@ -1,15 +1,23 @@
+
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 import time
+from pyspark.sql.types import *
+
+
+
 
 #defining constants
 CONS_KAFKA_TOPIC = "test-demand2"
 CONS_KAFKA_SERVER = "localhost:9092"
 
+
 #starting a spark session to work with
 spark = SparkSession.builder.appName("Spark-kafka").getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
+
+
 
 #creating streaming dataframe
 streaming_df = spark.readStream.format("kafka").option("kafka.bootstrap.servers", CONS_KAFKA_SERVER)\
@@ -32,12 +40,18 @@ streaming_df = streaming_df.withColumn('long', split_col.__getitem__(6))
 streaming_df = streaming_df.withColumn('timestamp', split_col.__getitem__(7))
 
 
+
 #removing the key from the data values in each column and only keeping the corresponding values
 col_array = ['Id', 'name', 'email', 'age', 'event', 'lat', 'timestamp']
 df_temp = streaming_df
 for col in col_array:
-    split_temp = split(df_temp[col], ":")
+    split_temp = split(df_temp[col], ": ")
     df_temp = df_temp.withColumn(col, split_temp.__getitem__(1))
+
+
+##cleaning the timestamp field by removing the prepending character "
+time_split = split(df_temp['timestamp'], '"')
+df_temp = df_temp.withColumn('timestamp', time_split.__getitem__(1) )
 
 
 #selecting the columns to stream into console using columned-query_df
@@ -52,18 +66,18 @@ final_op_stream_df.stop()
 
 
 #writing the streaming dataframe into mysql rdbms
-#selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp")
 
+selected_streaming_df = df_temp.select("Id", "event", "lat", 'long', "timestamp")
 
-#db_properties = {'user': 'root', 'password': ''}
-#def for_each_batch(df, id):
-#    df.write.option("driver", "com.mysql.jdbc.Driver").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
-#    pass
+db_properties = {'user': 'root', 'password': ''}
+def for_each_batch(df, id):
+    df.write.option("driver", "com.mysql.jdbc.Driver").mode("overwrite").jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
+    pass
 
-#query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
-#print("writing to database..............")
-#time.sleep(10)
-#query.stop()
+query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
+print("writing to database..............")
+time.sleep(10)
+query.stop()
 
 
 
