@@ -1,5 +1,5 @@
 0
-60
+61
 __consumer_offsets 13 18
 connect-test 0 0
 __consumer_offsets 46 9
@@ -46,6 +46,7 @@ __consumer_offsets 40 0
 __consumer_offsets 3 9
 __consumer_offsets 36 24
 __consumer_offsets 47 18
+new 0 0
 __consumer_offsets 14 12
 __consumer_offsets 43 17
 test 0 0
