@@ -68,14 +68,14 @@ final_op_stream_df.stop()
 selected_streaming_df = df_temp.select("Id", "event", "latitude", 'longitude', "timestamp")
 
 db_properties = {'user': 'root', 'password': ''}
-def for_each_batch(df, id):
-    df.write.option("driver", "com.mysql.jdbc.Driver").mode('append').jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
-    pass
+#def for_each_batch(df, id):
+#    df.write.option("driver", "com.mysql.jdbc.Driver").mode('append').jdbc(url='jdbc:mysql://localhost:3306/test', table='demand_supply', properties=db_properties)
+#    pass
 
-query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
-print("writing to database..............")
+#query = selected_streaming_df.writeStream.foreachBatch(for_each_batch).start()
+#print("writing to database..............")
 time.sleep(10)
-query.stop()
+#query.stop()
 
 
 
