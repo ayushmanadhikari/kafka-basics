@@ -6,7 +6,7 @@ import time
 from pyspark.sql.types import *
 
 
-#defining constants
+#defining kafka constants
 CONS_KAFKA_TOPIC = "test-demand3"
 CONS_KAFKA_SERVER = "localhost:9092"
 
@@ -26,6 +26,7 @@ streaming_df = streaming_df.selectExpr("CAST(key AS STRING)", "CAST(value AS STR
 
 #splitting the read serialized data obtained by query_df into columns with split function of pyspark.spl.functions
 split_col = split(streaming_df['value'], ',')
+
 
 #organizing data into columns in query_df and storing in query_df with columns for each type of key value pair 
 streaming_df = streaming_df.withColumn('Id', split_col.__getitem__(0))
