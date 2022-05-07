@@ -9,6 +9,7 @@ from faker import Faker
 CONS_KAFKA_TOPIC = "test-demand3"
 CONS_KAFKA_SERVER = "localhost:9092"
 
+
 #creating instances of Kafka variables
 kafka_client = KafkaClient(CONS_KAFKA_SERVER)
 kafka_topic = kafka_client.topics[CONS_KAFKA_TOPIC]
