@@ -23,7 +23,7 @@ From ZooKeeper to KRaft - Kafka's new Raft based controller
 
 Replication
 .replication ensures high availability and durability
-.data is kafka is organized into topics which is in turn paritioned and each partition can have multiple replicas
+.data in kafka is organized into topics which is in turn paritioned and each partition can have multiple replicas
 .these replicas are stored on brokers
 .and each broker typically stores hundreds or even thousands of replicas belonging to different topics and partitions
 
